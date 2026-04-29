@@ -8,6 +8,11 @@
  * Una entidad nombrada es una expresión del texto que refiere a un objeto
  * del mundo real (persona, lugar, organización, tecnología, etc.).
  *
+ * Las clases abstractas son para que no se las pueda usar para instanciar
+ * (crear) objetos. Solo existe para ser heredada.
+ * Ej: val NamedEntity EntidadHola = new NamedEntity()
+ * devuelve un error.
+ *
  * @param text el texto tal como aparece en el corpus
  */
 abstract class NamedEntity(val text: String) {
@@ -16,7 +21,7 @@ abstract class NamedEntity(val text: String) {
    * Retorna el tipo de la entidad como String.
    * Ejemplo: "Person", "University", "ProgrammingLanguage"
    *
-   * TODO (Ejercicio 1): Implementar en cada subclase concreta.
+   * (Ejercicio 1): Implementar en cada subclase concreta.
    */
   def entityType: String
 
@@ -30,7 +35,7 @@ abstract class NamedEntity(val text: String) {
 }
 
 // =====================================================================
-// TODO (Ejercicio 1): Completar la jerarquía de entidades
+// (Ejercicio 1): Completar la jerarquía de entidades
 //
 // Implementar las clases faltantes.
 //
@@ -63,6 +68,10 @@ abstract class NamedEntity(val text: String) {
 class Person(text: String) extends NamedEntity(text) {
   def entityType: String = "Person"
 }
+// Same as
+// def entityType(): String = {
+//   return "Person"
+// }
 
 class Organization(text: String) extends NamedEntity(text) {
   def entityType: String = "Organization"
@@ -85,3 +94,4 @@ class Technology(text: String) extends NamedEntity(text) {
 class ProgrammingLanguage(text: String) extends Technology(text) {
   override def entityType: String = "ProgrammingLanguage"
 }
+
