@@ -3,9 +3,10 @@
 // (Also it could provide some usage examples and
 // help understading how each one works)
 
-object Test {
+object NamedEntityTest {
   def testNamedEntity(): Int = {
     println("Testing NamedEntity.scala")
+    val lista: List[String] = List("a", "b", "c")
 
     //  val name: Type
     val miAbuelo: Person = new Person("Francisco")
