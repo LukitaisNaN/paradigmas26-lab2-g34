@@ -42,7 +42,7 @@ object Dictionary {
 
   def loadFromFile(filePath: String, entityType: String): List[NamedEntity] = {
     val source = scala.io.Source.fromFile(filePath)
-    val fileContent = try source.mkString finally source.close()
+    val fileContent: String = try source.mkString finally source.close()
     //println(fileContent) // Uncomment to see...file content
 
     val wordArray: Array[String] = fileContent.split("\n") // Make it Array[String], deleting "\n"s in the process
@@ -76,9 +76,9 @@ object Dictionary {
    *
    */
   def loadAll(): List[NamedEntity] = {
-    val filesInDir: List[java.io.File] = new java.io.File("data").listFiles().toList // listFiles = ls
+    val filesInData: List[java.io.File] = new java.io.File("data").listFiles().toList // listFiles = ls
     //println(filesInDir.mkString(", ")) // Without .mkString it prints pointer value (e.g: [Ljava.io.File;@482b3875)
-    val listOfLists: List[List[NamedEntity]] = filesInDir.map(file => loadFromFile(file.getPath, quitTxt(file.getName)))
+    val listOfLists: List[List[NamedEntity]] = filesInData.map(file => loadFromFile(file.getPath, quitTxt(file.getName)))
     val notListofLists: List[NamedEntity] = listOfLists.flatten
 
     //return List.empty[NamedEntity] // Used this to check if file compiled. Kind of a "fake" return.
