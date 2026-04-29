@@ -1,2 +1,0 @@
-test:
-	sbt "runMain Test"
