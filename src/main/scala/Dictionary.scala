@@ -1,3 +1,5 @@
+import scala.io.Source
+
 // =====================================================================
 // Ejercicio 2: Cargar diccionarios de entidades
 // =====================================================================
@@ -27,7 +29,7 @@ object Dictionary {
    * @param entityType tipo de entidad: "Person", "University", "ProgrammingLanguage", etc.
    * @return lista de NamedEntity del tipo correspondiente
    *
-   * TODO (Ejercicio 2): Implementar este método.
+   * Ejercicio 2: Implementar loadFromFile.
    *
    *   Pasos sugeridos:
    *     1. Leer las líneas del archivo
@@ -37,8 +39,32 @@ object Dictionary {
    *   Para crear la clase correcta según el tipo se puede usar match:
    *
    */
+
   def loadFromFile(filePath: String, entityType: String): List[NamedEntity] = {
-    ???
+    val source = scala.io.Source.fromFile(filePath)
+    val fileContent = try source.mkString finally source.close()
+    //println(fileContent) // Uncomment to see...file content
+
+    val wordArray: Array[String] = fileContent.split("\n") // Make it Array[String], deleting "\n"s in the process
+
+    // Remove first line, since it's just a comment. "if" statement just in case
+    val notHead:Array[String] =
+      if (wordArray.nonEmpty) wordArray.tail
+      else wordArray
+    val wordList: List[String] = notHead.toList // Now make it a List.
+
+    // Finally, instance objects for each word and return.
+    val myList: List[NamedEntity] = entityType match {
+    case "people"         => wordList.map(word => new Person(word))
+    case "organizations"  => wordList.map(word => new Organization(word))
+    case "universities"   => wordList.map(word => new University(word))
+    case "places"         => wordList.map(word => new Place(word))
+    case "technology"     => wordList.map(word => new Technology(word))
+    case "languages"      => wordList.map(word => new ProgrammingLanguage(word))
+    case _                => List.empty[NamedEntity]
+    }
+
+    return myList
   }
 
   /**
@@ -46,10 +72,32 @@ object Dictionary {
    *
    * @return lista con todas las entidades de todos los diccionarios
    *
-   * TODO (Ejercicio 2): Implementar este método.
+   * Ejercicio 2: Implementar este método.
    *
    */
   def loadAll(): List[NamedEntity] = {
-    ???
+    val filesInDir: List[java.io.File] = new java.io.File("data").listFiles().toList // listFiles = ls
+    //println(filesInDir.mkString(", ")) // Without .mkString it prints pointer value (e.g: [Ljava.io.File;@482b3875)
+    val listOfLists: List[List[NamedEntity]] = filesInDir.map(file => loadFromFile(file.getPath, quitTxt(file.getName)))
+    val notListofLists: List[NamedEntity] = listOfLists.flatten
+
+    //return List.empty[NamedEntity] // Used this to check if file compiled. Kind of a "fake" return.
+    return notListofLists // Without this return, it doesn't work.
+  }
+
+  def quitTxt(file: String): String = {
+    //getName() got rid of "data/" section. ".getPath" keeps it.
+    file.replaceAll(".txt","")
+  }
+
+  // Main. Used for testing. Execute "sbt run" and select
+  // this file's name (Dictionary) to run it.
+  def main(args: Array[String]): Unit = {
+    // Verificación dada en enunciado
+    val dict = Dictionary.loadAll()
+    println(s"Total de entidades: ${dict.size}")
+    dict.filter(_.entityType == "Person").foreach(p => println(p.describe))
+
   }
 }
+
