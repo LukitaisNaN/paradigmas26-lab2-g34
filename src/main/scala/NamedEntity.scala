@@ -46,11 +46,42 @@ abstract class NamedEntity(val text: String) {
 //
 // Luego de implementar las clases, este código debe compilar:
 //
-//   val entities: List[NamedEntity] = List(
-//     new Person("Alan Turing"),
-//     new University("MIT"),
-//     new ProgrammingLanguage("Scala"),
-//     new Place("San Francisco")
-//   )
-//   entities.foreach(e => println(e.describe))
+// Para que esta funcion funcione xd, debe estar adentro de un objeto xd.
+// por ejemplo object example {...} porque si no te tira error.
+//
+//  val entities: List[NamedEntity] = List(
+//    new Person("Alan Turing"),
+//    new University("MIT"),
+//    new ProgrammingLanguage("Scala"),
+//    new Place("San Francisco")
+//  )
+//  entities.foreach(e => println(e.describe))
+//
+// Si funciona jeje
 // =====================================================================
+
+class Person(text: String) extends NamedEntity(text) {
+  def entityType: String = "Person"
+}
+
+class Organization(text: String) extends NamedEntity(text) {
+  def entityType: String = "Organization"
+}
+
+// override sobreescribe la implementación del metodo que heredo de su
+// clase padre
+class University(text: String) extends Organization(text) {
+  override def entityType: String = "University"
+}
+
+class Place(text: String) extends NamedEntity(text) {
+  def entityType: String = "Place"
+}
+
+class Technology(text: String) extends NamedEntity(text) {
+  def entityType: String = "Technology"
+}
+
+class ProgrammingLanguage(text: String) extends Technology(text) {
+  override def entityType: String = "ProgrammingLanguage"
+}
