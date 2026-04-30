@@ -77,16 +77,19 @@ object Dictionary {
    */
   def loadAll(): List[NamedEntity] = {
     val filesInData: List[java.io.File] = new java.io.File("data").listFiles().toList // listFiles = ls
-    //println(filesInDir.mkString(", ")) // Without .mkString it prints pointer value (e.g: [Ljava.io.File;@482b3875)
+    //println(filesInData.mkString(", ")) // Without .mkString it prints pointer value (e.g: [Ljava.io.File;@482b3875)
+    //System.exit(0)
     val listOfLists: List[List[NamedEntity]] = filesInData.map(file => loadFromFile(file.getPath, quitTxt(file.getName)))
+    //getName() got rid of "data/" section. ".getPath" keeps it.
+    //flatten los mete todo en una sola lista
     val notListofLists: List[NamedEntity] = listOfLists.flatten
 
     //return List.empty[NamedEntity] // Used this to check if file compiled. Kind of a "fake" return.
     return notListofLists // Without this return, it doesn't work.
   }
 
+  //Funcion auxiliar
   def quitTxt(file: String): String = {
-    //getName() got rid of "data/" section. ".getPath" keeps it.
     file.replaceAll(".txt","")
   }
 
@@ -97,7 +100,6 @@ object Dictionary {
     val dict = Dictionary.loadAll()
     println(s"Total de entidades: ${dict.size}")
     dict.filter(_.entityType == "Person").foreach(p => println(p.describe))
-
   }
 }
 
