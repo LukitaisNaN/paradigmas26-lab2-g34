@@ -35,7 +35,8 @@ object Analyzer {
    *                  )
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
-    ???
+    // Filtramos dictionary quedandonos con las entidades que esten en text.
+    dictionary.filter(entity => text.contains(entity.text))
   }
 
   /**
@@ -59,7 +60,27 @@ object Analyzer {
    *                   "University"          -> 1
    *                 )
    */
-  def countByType(entities: List[NamedEntity]): Map[String, Int] = {
-    ???
+  //def countByType(entities: List[NamedEntity]): Map[String, Int] = {
+  //  ???
+  //}
+
+  // Main. Used for testing. Execute "sbt run" and select
+  // this file's name (Analyzer) to run it.
+  def main(args: Array[String]): Unit = {
+    val text: String = "Alan Turin esta en London"
+    val dict: List[NamedEntity] = Dictionary.loadAll()
+    val resultado: List[NamedEntity] = detectEntities(text, dict)
+    println("---------------------------------------------------------")
+    println("Ejemplo donde no toma el nombre de persona, ya que esta mal escrito\n")
+    println(s"Texto: ${text}\n")
+    println(s"Resultado: ${resultado}\n")
+    println("---------------------------------------------------------")
+    val text2: String = "Scala fue creado en EPFL por Martin Odersky"
+    val dict2: List[NamedEntity] = Dictionary.loadAll()
+    val resultado2: List[NamedEntity] = detectEntities(text2, dict2)
+    println("Ejemplo 2, ejecucion normal")
+    println(s"Texto: ${text2}\n")
+    println(s"Resultado: ${resultado2}\n")
+    println("---------------------------------------------------------")
   }
 }
