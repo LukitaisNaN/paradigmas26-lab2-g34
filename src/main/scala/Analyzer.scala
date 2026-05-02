@@ -15,7 +15,7 @@ object Analyzer {
    * @param dictionary lista de entidades conocidas (cargadas desde los diccionarios)
    * @return lista de entidades cuyo texto aparece en el texto analizado
    *
-   * TODO (Ejercicio 3): Implementar este método.
+   * (Ejercicio 3): Implementar este método.
    *
    *   Para cada entidad en el diccionario, verificar si su texto aparece en el
    *   texto del post. Retornar únicamente las entidades que aparecen.
